@@ -30,20 +30,32 @@ class qu:
         unwind results.genre_ids as genre
         match (T:GENRES {id:genre})
         merge (n)-[r:has]->(T)
-        return T,r
+        with results,n,T,r
+        match (Y:year{year:date(n.release_date).year})
+        merge (n)-[x:year]->(Y)
+        return n,T,Y,r,x
         '''
-        self.run_query()
+        map={"api":api}
+        self.run_query(map)
 
 
     def front(self):
         self.que ='''
         match (n:MOVIE) return n
         '''
-        return self.run_query()
+        map = {}
+        return self.run_query(map)
 
  
-    def run_query(self):
-        map={"api":api}
+    def get_id(self,id):
+        self.que ='''
+        match (n:MOVIE{id:$id}) return n
+        '''
+        map={"id":id}
+        return self.run_query(map)
+
+
+    def run_query(self,map):
         try:
             result=session.run(self.que,map)
             data = result.data()
@@ -54,26 +66,3 @@ class qu:
 
 
 driver.close()
-
-
-
-
-# genres add command
-# call apoc.load.json("https://api.themoviedb.org/3/genre/movie/list?api_key=0b49362fb609e87f25368bd27624b3eb&language=en-US")
-# yield value
-# unwind value.genres as genres
-# merge (n:GENRES {id:genres.id,name:genres.name})
-# return n
-
-
-
-# add
-# call apoc.load.json("https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=0b49362fb609e87f25368bd27624b3eb")
-#         yield value
-#         unwind value.results as results
-#         merge (n:MOVIE{id:results.id}) set n = results {.*,NAME:results.title}
-#         with results,n
-#         unwind results.genre_ids as genre
-#         match (T:GENRES {id:genre})
-#         merge (n)-[r:has]->(T)
-#         return T,r

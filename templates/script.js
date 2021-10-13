@@ -1,15 +1,14 @@
 const API_URL = "http://127.0.0.1:5000/"
 const IMG_PATH = 'https://image.tmdb.org/t/p/w1280'
-const SEARCH_API = 'https://api.themoviedb.org/3/search/movie?api_key=3fd2be6f0c70a2a598f084ddfb75487c&query="'
 
-const main = document.getElementById('main')
-const form = document.getElementById('form')
-const search = document.getElementById('search')
+
+const front_main = document.getElementById('front_main')
+
 
 // Get initial movies
 
 
-getMovies(API_URL)
+getMovies(API_URL+"front")
 
 async function getMovies(url) {
     const res = await fetch(url)
@@ -19,10 +18,11 @@ async function getMovies(url) {
 
 function showMovies(movies) {
     
-    main.innerHTML = ''
+    front_main.innerHTML = ''
 
     movies.forEach((movie) => {
-        const { n:{title, poster_path, vote_average, overview }} = movie
+        
+        const { n:{id,title, poster_path, vote_average}} = movie
 
         const movieEl = document.createElement('div')
         movieEl.classList.add('movie')
@@ -33,12 +33,12 @@ function showMovies(movies) {
           <h3>${title}</h3>
           <span class="${getClassByRate(vote_average)}">${vote_average}</span>
             </div>
-            <div class="overview">
-          <h3>Overview</h3>
-          ${overview}
-        </div>
         `
-        main.appendChild(movieEl)
+        movieEl.addEventListener("click",()=> {
+            console.log(id)
+            location.replace("./movie_page.html?id="+id)
+        })
+        front_main.appendChild(movieEl)
     })
 }
 
@@ -52,16 +52,3 @@ function getClassByRate(vote) {
     }
 }
 
-form.addEventListener('submit', (e) => {
-    e.preventDefault()
-
-    const searchTerm = search.value
-
-    if(searchTerm && searchTerm !== '') {
-        getMovies(SEARCH_API + searchTerm)
-
-        search.value = ''
-    } else {
-        window.location.reload()
-    }
-})
