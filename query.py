@@ -47,13 +47,31 @@ class qu:
         return self.run_query(map)
 
  
-    def get_id(self,id):
+    def get_Movie_id(self,id):
         self.que ='''
         match (n:MOVIE{id:$id}) return n
         '''
         map={"id":id}
         return self.run_query(map)
 
+    def get_genres_id(self,id):
+        self.que ='''
+        MATCH (n:GENRES{id:$id}) RETURN n
+        '''
+        map={"id":id}
+        return self.run_query(map)
+
+    def get_rem(self,id):
+        self.que ='''
+        MATCH (n:GENRES)
+        WHERE (n.id) IN $id
+        with n
+        MATCH p=(n:GENRES)<-[r:has]-(c:MOVIE)
+        RETURN c,count(r) AS connections
+        ORDER BY connections DESC,c.popularity DESC
+        '''
+        map={"id":id}
+        return self.run_query(map)
 
     def run_query(self,map):
         try:

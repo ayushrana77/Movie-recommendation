@@ -7,7 +7,6 @@ const front_main = document.getElementById('front_main')
 
 // Get initial movies
 
-
 getMovies(API_URL+"front")
 
 async function getMovies(url) {
@@ -19,7 +18,6 @@ async function getMovies(url) {
 function showMovies(movies) {
     
     front_main.innerHTML = ''
-
     movies.forEach((movie) => {
         
         const { n:{id,title, poster_path, vote_average}} = movie
@@ -36,7 +34,7 @@ function showMovies(movies) {
         `
         movieEl.addEventListener("click",()=> {
             console.log(id)
-            location.replace("./movie_page.html?id="+id)
+            location.replace("../movie_page/movie_page.html?id="+id)
         })
         front_main.appendChild(movieEl)
     })
