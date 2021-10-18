@@ -33,7 +33,6 @@ function showMovies(movies) {
             </div>
         `
         movieEl.addEventListener("click",()=> {
-            console.log(id)
             location.replace("../movie_page/movie_page.html?id="+id)
         })
         front_main.appendChild(movieEl)

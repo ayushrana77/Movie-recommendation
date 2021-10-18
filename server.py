@@ -33,6 +33,33 @@ def rem():
     data =  q1.get_rem(ids)
     return (jsonify(data))
 
+
+@app.route("/category_page",methods=["GET","POST"])
+def category_page():
+    id = int(request.args.get('id'))
+    data =  q1.get_category_id(id)
+    return (jsonify(data))
+
+@app.route("/genre",methods=["GET","POST"])
+def genre():
+    data =  q1.genre()
+    return (jsonify(data))
+
+@app.route("/year",methods=["GET","POST"])
+def get_by_year():
+    year = int(request.args.get('year'))
+    data =  q1.get_by_year(year)
+    return (jsonify(data))
+
+
+@app.route("/search",methods=["GET","POST"])
+def get_by_search():
+    search = request.args.get('search')
+    data =  q1.get_by_search(search)
+    return (jsonify(data))
+
+
+
 if __name__ == "__main__":
     app.run(debug=True,threaded=False)
     

@@ -87,7 +87,7 @@ function add_genre(genres)
                 ${name}
             `
             genreE.addEventListener("click",()=>{
-                console.log(id);
+                location.replace("../category_page/category_page.html?category="+id)
             })
             genreEl.appendChild(genreE)
         })
@@ -112,7 +112,6 @@ function showMovies(movies) {
             </div>
         `
         movieEl.addEventListener("click",()=> {
-            console.log(id)
             location.replace("../movie_page/movie_page.html?id="+id)
         })
         movie_rmd.appendChild(movieEl)
