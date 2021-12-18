@@ -1,12 +1,15 @@
 from flask import Flask,jsonify,render_template,request
 from query import qu
-import threading
+from flask_cors import CORS
 
 
 
 q1 = qu()
 
 app = Flask(__name__)
+
+
+CORS(app)
 
 @app.route("/front",methods=["GET","POST"])
 def home():
@@ -23,6 +26,12 @@ def page():
 def category():
     id = int(request.args.get('id'))
     data =  q1.get_genres_id(id)
+    return (jsonify(data))
+
+@app.route("/geners",methods=["GET","POST"])
+def geners():
+    id = int(request.args.get('id'))
+    data =  q1.get_movie_genres(id)
     return (jsonify(data))
 
 @app.route("/rem",methods=["GET","POST"])

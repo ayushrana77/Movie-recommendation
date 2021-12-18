@@ -20,7 +20,7 @@ async function get_gener(url)
 {
     const res = await fetch(url);
     const data = await res.json();
-    return data
+    Show_genere(data)
 }
 
 async function get_movie(url)
@@ -63,23 +63,20 @@ function show_movie(data)
     `
     movie_detail.appendChild(movie_show)
     const genres = n.genre_ids
-    add_genre(genres)
+    get_gener(API_URL+"geners?id="+n.id)
     get_rem(API_URL+"rem?id="+genres)
 }
 
 
 
-function add_genre(genres)
+function Show_genere(genres)
 {
     const genreEl = document.getElementsByClassName("genre")[0]
     genreEl.innerHTML = ''
 
-    
     genres.forEach(genre => {
-        
-        get_gener(API_URL+"category?id="+genre).then(res => {
-            data = res[0]
-            const {n:{id,name}} = data
+    
+            const {g:{id,name}} = genre
             const genreE = document.createElement('div')
             genreE.classList.add('genre_e') 
 
@@ -90,7 +87,6 @@ function add_genre(genres)
                 location.replace("../category_page/category_page.html?category="+id)
             })
             genreEl.appendChild(genreE)
-        })
     })
 }
 

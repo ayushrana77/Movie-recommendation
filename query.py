@@ -76,6 +76,13 @@ class qu:
         map={"id":id}
         return self.run_query(map)
 
+    def get_movie_genres(self,id):
+        self.que ='''
+        match p=(n:MOVIE{id:$id})-[r:has]->(g) return g
+        '''
+        map={"id":id}
+        return self.run_query(map)
+
     def get_rem(self,id):
         self.que ='''
         MATCH (n:GENRES)

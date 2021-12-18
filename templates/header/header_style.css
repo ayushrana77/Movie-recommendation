@@ -32,6 +32,7 @@ body {
 
 .logo{
   padding: 1vw 6vw;
+  cursor: pointer;
 }
 .menu_btn{
   display: contents;
